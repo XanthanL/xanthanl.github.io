@@ -30,7 +30,7 @@ const StarField = ({ isWarping = false }) => {
     return [pos, cols]
   }, [])
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!points.current) return
     
     // Normal slow rotation for deep background feel

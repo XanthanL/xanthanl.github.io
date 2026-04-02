@@ -1,7 +1,6 @@
-import { Suspense, useState, useEffect, useRef, useMemo } from 'react'
+import { Suspense, useState, useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { PerspectiveCamera, CameraControls } from '@react-three/drei'
-import { motion, AnimatePresence } from 'framer-motion'
+import { CameraControls } from '@react-three/drei'
 import { 
   EffectComposer, 
   Bloom, 
@@ -29,14 +28,14 @@ const CameraTracker = ({ activeSector, systemRef, controlsRef }: any) => {
 
 const MeteorSystem = () => {
   const meshRef = useRef<THREE.Mesh>(null!)
-  const [target, setTarget] = useState(new THREE.Vector3(0, 0, 0))
-  const [pos, setPos] = useState(new THREE.Vector3(-100, 0, 0))
+  const [target] = useState(new THREE.Vector3(0, 0, 0))
+  const [pos] = useState(new THREE.Vector3(-100, 0, 0))
   const [active, setActive] = useState(false)
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!active && Math.random() > 0.995) {
-      setPos(new THREE.Vector3((Math.random()-0.5)*100, (Math.random()-0.5)*50, -50))
-      setTarget(new THREE.Vector3((Math.random()-0.5)*100, (Math.random()-0.5)*50, 100))
+      pos.set((Math.random()-0.5)*100, (Math.random()-0.5)*50, -50)
+      target.set((Math.random()-0.5)*100, (Math.random()-0.5)*50, 100)
       setActive(true)
     }
     if (active) {
@@ -104,18 +103,21 @@ function App() {
             <CameraTracker activeSector={activeSector} systemRef={xanthanSystemRef} controlsRef={cameraControlsRef} />
             <MeteorSystem />
 
-            <EffectComposer disableNormalPass multisampling={0}>
+            <EffectComposer multisampling={0}>
               <Bloom intensity={2.0} luminanceThreshold={0.1} mipmapBlur blendFunction={BlendFunction.SCREEN} />
               <Scanline opacity={0.02} density={1.0} />
               <Noise opacity={0.05} />
               <Vignette darkness={1.2} />
-              <ChromaticAberration offset={new THREE.Vector2(0.0008, 0.0008)} />
+              <ChromaticAberration 
+                offset={new THREE.Vector2(0.0008, 0.0008)} 
+                radialModulation={false}
+                modulationOffset={0}
+              />
             </EffectComposer>
           </Suspense>
         </Canvas>
       </div>
 
-      {/* MINIMALIST CELESTIAL UI */}
       <div className="relative z-10 w-full h-full pointer-events-none p-10 flex flex-col justify-between">
         <header className="flex justify-between items-start">
           <div className="flex flex-col gap-1 border-l-2 border-primary pl-4">
@@ -163,11 +165,11 @@ function App() {
             <div className="flex gap-10 text-[8px] opacity-40 border-t border-white/10 pt-4">
               <div className="flex flex-col">
                 <span>COORD_RA</span>
-                <span className="font-black text-white">{(Math.random()*24).toFixed(2)}H</span>
+                <span className="font-black text-white">{(12.45).toFixed(2)}H</span>
               </div>
               <div className="flex flex-col">
                 <span>DISTANCE</span>
-                <span className="font-black text-white">{(Math.random()*500 + 100).toFixed(2)} LY</span>
+                <span className="font-black text-white">{(320.12).toFixed(2)} LY</span>
               </div>
               <div className="flex flex-col">
                 <span>TEMP_CORE</span>

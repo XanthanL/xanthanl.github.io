@@ -1,6 +1,6 @@
-import { useRef, useMemo, forwardRef, useImperativeHandle } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { MeshDistortMaterial, Sphere, TorusKnot, Octahedron, Ring, Float, Icosahedron } from '@react-three/drei'
+import { useRef, forwardRef, useImperativeHandle } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { MeshDistortMaterial, Sphere, TorusKnot, Octahedron, Ring, Float } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface XanthanSystemProps {
@@ -8,7 +8,6 @@ interface XanthanSystemProps {
 }
 
 const XanthanSystem = forwardRef(({ activeSector }: XanthanSystemProps, ref) => {
-  const systemRef = useRef<THREE.Group>(null!)
   const sunRef = useRef<THREE.Group>(null!)
   const godotRef = useRef<THREE.Group>(null!)
   const aiRef = useRef<THREE.Group>(null!)
@@ -30,7 +29,7 @@ const XanthanSystem = forwardRef(({ activeSector }: XanthanSystemProps, ref) => 
   }))
 
   return (
-    <group ref={systemRef}>
+    <group>
       <group ref={sunRef}>
         <Sun active={activeSector === 'CORE'} />
       </group>
@@ -51,7 +50,6 @@ const XanthanSystem = forwardRef(({ activeSector }: XanthanSystemProps, ref) => 
         hasRings={true}
       />
 
-      {/* Basic background planets */}
       <Planet geometry={Sphere} color="#aaaaaa" dist={8} speed={0.4} args={[0.2, 32, 32]} />
       <Planet geometry={Sphere} color="#e3bb76" dist={11} speed={0.3} args={[0.35, 32, 32]} />
       <Planet geometry={Sphere} color="#2277ff" dist={18} speed={0.12} args={[0.4, 32, 32]} />
@@ -70,7 +68,6 @@ const Sun = ({ active }: { active: boolean }) => {
         <MeshDistortMaterial color="#050505" emissive="#32cd32" emissiveIntensity={active ? 15 : 5} distort={0.4} speed={2} />
       </Sphere>
       <pointLight intensity={10} color="#32cd32" distance={60} />
-      {/* Sun Corona Effect */}
       <Sphere args={[2.7, 32, 32]}>
         <meshBasicMaterial color="#32cd32" transparent opacity={0.05} side={THREE.BackSide} />
       </Sphere>
@@ -86,7 +83,7 @@ const Planet = forwardRef(({ geometry: Geo, color, dist, speed, args, isFocused,
     const t = state.clock.getElapsedTime()
     orbitRef.current.rotation.y = t * speed
     meshRef.current.rotation.y = t * 0.5
-    if (isActive) {
+    if (isActive && meshRef.current) {
       const targetScale = isFocused ? 1.5 : 1.0
       meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1)
     }
@@ -109,7 +106,6 @@ const Planet = forwardRef(({ geometry: Geo, color, dist, speed, args, isFocused,
             </Geo>
           </mesh>
 
-          {/* Interesting Details */}
           {hasMoon && (
             <Float speed={5} rotationIntensity={2} floatIntensity={2}>
               <mesh position={[1.5, 0.5, 0]}>
@@ -139,4 +135,5 @@ const Planet = forwardRef(({ geometry: Geo, color, dist, speed, args, isFocused,
   )
 })
 
+XanthanSystem.displayName = 'XanthanSystem'
 export default XanthanSystem
