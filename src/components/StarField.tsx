@@ -4,64 +4,58 @@ import * as THREE from 'three'
 
 const StarField = ({ isWarping = false }) => {
   const points = useRef<THREE.Points>(null)
-  const count = 5000
+  const count = 8000 // More stars for deep space
 
-  const [positions, initialPositions] = useMemo(() => {
+  const [positions, colors] = useMemo(() => {
     const pos = new Float32Array(count * 3)
-    const initPos = new Float32Array(count * 3)
+    const cols = new Float32Array(count * 3)
+    const color = new THREE.Color()
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 100
-      const y = (Math.random() - 0.5) * 100
-      const z = (Math.random() - 0.5) * 100
-      pos.set([x, y, z], i * 3)
-      initPos.set([x, y, z], i * 3)
+      // Pushing stars to a HUGE radius (between 400 and 800)
+      const r = 400 + Math.random() * 400
+      const theta = 2 * Math.PI * Math.random()
+      const phi = Math.acos(2 * Math.random() - 1)
+
+      pos[i * 3] = r * Math.sin(phi) * Math.cos(theta)
+      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
+      pos[i * 3 + 2] = r * Math.cos(phi)
+      
+      const starType = Math.random()
+      if (starType > 0.95) color.set('#ffccaa')
+      else if (starType > 0.85) color.set('#aaccff')
+      else color.set('#ffffff')
+      
+      cols.set([color.r, color.g, color.b], i * 3)
     }
-    return [pos, initPos]
+    return [pos, cols]
   }, [])
 
   useFrame((state) => {
     if (!points.current) return
-    const time = state.clock.getElapsedTime()
-    const geo = points.current.geometry
-    const posAttr = geo.getAttribute('position')
-
-    for (let i = 0; i < count; i++) {
-      let z = posAttr.getZ(i)
-      
-      // Hyperdrive Effect: Stars rush towards the camera
-      if (isWarping) {
-        z += 2.5 // Warp speed
-        if (z > 50) z = -50
-      } else {
-        z += 0.05 // Normal drift
-        if (z > 50) z = -50
-      }
-      
-      posAttr.setZ(i, z)
+    
+    // Normal slow rotation for deep background feel
+    points.current.rotation.y += 0.0005
+    
+    if (isWarping) {
+      // Subtle stretch effect during warp
+      points.current.scale.z = THREE.MathUtils.lerp(points.current.scale.z, 2.0, 0.1)
+    } else {
+      points.current.scale.z = THREE.MathUtils.lerp(points.current.scale.z, 1.0, 0.1)
     }
-    posAttr.needsUpdate = true
-
-    // Rotation based on mouse
-    points.current.rotation.y = THREE.MathUtils.lerp(points.current.rotation.y, state.mouse.x * 0.2, 0.05)
-    points.current.rotation.x = THREE.MathUtils.lerp(points.current.rotation.x, -state.mouse.y * 0.2, 0.05)
   })
 
   return (
     <points ref={points}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+        <bufferAttribute attach="attributes-color" count={count} array={colors} itemSize={3} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.15}
-        color="#ffffff"
+        size={1.5} // Larger size since they are very far away
+        vertexColors
         transparent
-        opacity={0.8}
-        sizeAttenuation
+        opacity={0.4}
+        sizeAttenuation={true}
         blending={THREE.AdditiveBlending}
       />
     </points>
