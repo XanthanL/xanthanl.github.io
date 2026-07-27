@@ -11,9 +11,8 @@ import {
 } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Github, Copy } from 'lucide-react'
+import { ExternalLink, Github, Copy, ChevronUp } from 'lucide-react'
 import XanthanSystem from './components/XanthanSystem'
-import BackgroundElements from './components/BackgroundElements'
 import StarField from './components/StarField'
 import { SECTORS, getSector } from './data/projects'
 import * as THREE from 'three'
@@ -64,6 +63,8 @@ const MeteorSystem = () => {
 function App() {
   const [activeSector, setActiveSector] = useState('CORE')
   const [isWarping, setIsWarping] = useState(false)
+  // 手机端卡片默认折叠成标题栏，避免遮挡宇宙画面；桌面端始终展开
+  const [cardOpen, setCardOpen] = useState(false)
   const cameraControlsRef = useRef<CameraControls>(null!)
   const xanthanSystemRef = useRef<any>(null!)
 
@@ -95,8 +96,6 @@ function App() {
 
   return (
     <div className="relative w-full h-screen bg-[#000000] overflow-hidden text-white font-mono select-none tracking-tighter">
-      <BackgroundElements />
-
       <div className="absolute inset-0 z-0">
         <Canvas gl={{ antialias: false }} dpr={[1, 1.5]}>
           <CameraControls ref={cameraControlsRef} makeDefault />
@@ -127,11 +126,6 @@ function App() {
         <header className="flex justify-between items-start">
           <div className="flex flex-col gap-1 border-l-2 border-primary pl-4">
             <span className="text-lg font-black tracking-[0.3em]">XANTHAN_OBS</span>
-            <span className="text-[8px] opacity-30 tracking-[0.5em]">PROJECT_CONSTELLATION // {SECTORS.length - 1}_DEPLOYED</span>
-          </div>
-          <div className="text-[10px] text-right opacity-40 leading-relaxed">
-            LOCKED: {sector.label}<br />
-            STATUS: {isWarping ? 'WARPING...' : 'NOMINAL'}
           </div>
         </header>
 
@@ -143,38 +137,45 @@ function App() {
           </div>
         </div>
 
-        {/* 项目信息卡片 */}
-        <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 w-[300px] md:w-[360px] pointer-events-auto">
+        {/* 项目信息卡片：桌面端右侧悬浮，手机端底部抽屉 */}
+        <div className="absolute pointer-events-auto left-0 right-0 bottom-0 md:left-auto md:right-10 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:w-[360px]">
           <AnimatePresence mode="wait">
             {!isWarping && (
               <motion.div
                 key={sector.id}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 40 }}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 24 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="border border-white/10 bg-black/60 backdrop-blur-md p-6 flex flex-col gap-4 max-h-[72vh] overflow-y-auto"
+                className="border border-white/10 bg-black/70 backdrop-blur-md p-4 md:p-6 flex flex-col gap-3 md:gap-4 max-h-[52vh] md:max-h-[72vh] overflow-y-auto"
                 style={{ borderLeftColor: sector.color, borderLeftWidth: 2 }}
               >
-                <div className="flex justify-between items-start">
+                <button
+                  className="flex justify-between items-start w-full text-left md:pointer-events-none"
+                  onClick={() => setCardOpen((o) => !o)}
+                >
                   <div className="flex flex-col gap-1">
                     <span className="text-[8px] tracking-[0.4em] opacity-40">TARGET_{sector.index} // {sector.label}</span>
-                    <span className="text-xl font-black tracking-tight normal-case" style={{ color: sector.color }}>{sector.name}</span>
+                    <span className="text-lg md:text-xl font-black tracking-tight normal-case" style={{ color: sector.color }}>{sector.name}</span>
                   </div>
-                  <div className="w-2 h-2 mt-1 animate-pulse" style={{ background: sector.color }} />
-                </div>
+                  <div className="flex items-center gap-3 mt-1">
+                    <div className="w-2 h-2 animate-pulse" style={{ background: sector.color }} />
+                    <ChevronUp size={14} className={`md:hidden opacity-60 transition-transform duration-300 ${cardOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </button>
 
-                <p className="text-[11px] leading-relaxed opacity-70 normal-case tracking-normal">
-                  {sector.desc}
-                </p>
+                <div className={`${cardOpen ? 'flex' : 'hidden'} md:flex flex-col gap-3 md:gap-4`}>
+                  <p className="text-[11px] leading-relaxed opacity-70 normal-case tracking-normal">
+                    {sector.desc}
+                  </p>
 
-                <div className="flex flex-wrap gap-2">
-                  {sector.tags.map((tag) => (
-                    <span key={tag} className="text-[8px] tracking-[0.2em] px-2 py-1 border border-white/15 opacity-60">{tag}</span>
-                  ))}
-                </div>
+                  <div className="flex flex-wrap gap-2">
+                    {sector.tags.map((tag) => (
+                      <span key={tag} className="text-[8px] tracking-[0.2em] px-2 py-1 border border-white/15 opacity-60">{tag}</span>
+                    ))}
+                  </div>
 
-                <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
+                  <div className="flex flex-col gap-2 pt-2 border-t border-white/10">
                   <a
                     href={sector.url} target="_blank" rel="noopener noreferrer"
                     className="group flex items-center justify-between px-4 py-3 border transition-all duration-300 hover:bg-white/5"
@@ -203,13 +204,14 @@ function App() {
                       </a>
                     )}
                   </div>
+                  </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <footer className="flex justify-between items-end pointer-events-auto">
+        <footer className="flex justify-between items-end pointer-events-auto mb-20 md:mb-0">
           {/* 星区导航 */}
           <div className="flex flex-col gap-2.5">
             {SECTORS.map((s) => (
@@ -235,24 +237,8 @@ function App() {
 
           <div className="flex flex-col items-end gap-6">
             <div className="text-right">
-              <div className="text-[8px] opacity-30 mb-1 tracking-[0.2em]">Target_Locked</div>
-              <div className="text-5xl md:text-7xl font-black tracking-tighter leading-none italic" style={{ color: sector.color }}>
+              <div className="text-4xl md:text-7xl font-black tracking-tighter leading-none italic" style={{ color: sector.color }}>
                 {sector.label}
-              </div>
-            </div>
-
-            <div className="flex gap-10 text-[8px] opacity-40 border-t border-white/10 pt-4">
-              <div className="flex flex-col">
-                <span>ORBIT_RADIUS</span>
-                <span className="font-black text-white">{sector.dist.toFixed(1)} AU</span>
-              </div>
-              <div className="flex flex-col">
-                <span>ORBIT_PERIOD</span>
-                <span className="font-black text-white">{sector.speed > 0 ? (2 * Math.PI / sector.speed).toFixed(1) : '∞'} S</span>
-              </div>
-              <div className="flex flex-col">
-                <span>SIGNAL</span>
-                <span className="font-black" style={{ color: sector.color }}>ONLINE</span>
               </div>
             </div>
           </div>
