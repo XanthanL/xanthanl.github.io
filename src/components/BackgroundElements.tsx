@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 const BackgroundElements = () => {
   const [coords, setCoords] = useState({ x: 0, y: 0 })
+  // 信号强度只生成一次，避免鼠标移动时数值疯狂跳变
+  const signals = useMemo(() => Array.from({ length: 12 }, () => Math.floor(Math.random() * 120)), [])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -28,10 +30,10 @@ const BackgroundElements = () => {
 
       {/* Grid of cosmic register codes */}
       <div className="absolute bottom-10 left-10 grid grid-cols-4 gap-4 opacity-50">
-        {Array.from({ length: 12 }).map((_, i) => (
+        {signals.map((s, i) => (
           <div key={i} className="flex flex-col">
             <span className="text-[6px]">SIGNAL_STRENGTH</span>
-            <span className="text-primary">-{Math.floor(Math.random() * 120)} dBm</span>
+            <span className="text-primary">-{s} dBm</span>
           </div>
         ))}
       </div>
