@@ -124,8 +124,11 @@ function App() {
 
       <div className="relative z-10 w-full h-full pointer-events-none p-6 md:p-10 flex flex-col justify-between uppercase">
         <header className="flex justify-between items-start">
-          <div className="flex flex-col gap-1 border-l-2 border-primary pl-4">
-            <span className="text-lg font-black tracking-[0.3em]">XANTHAN_OBS</span>
+          <div className="flex items-center gap-3">
+            <img src="./logo.svg" alt="XanthanL Logo" className="w-10 h-10 md:w-12 md:h-12" draggable={false} />
+            <div className="flex flex-col gap-1 border-l-2 border-primary pl-3">
+              <span className="text-lg font-black tracking-[0.3em]">XANTHAN_OBS</span>
+            </div>
           </div>
         </header>
 

@@ -2,9 +2,26 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='30' fill='none' stroke='%2332cd32' stroke-width='6'/><circle cx='50' cy='50' r='12' fill='%2332cd32'/></svg>" />
+    <!-- 图标：ico 兼容老浏览器/微信，svg 供现代浏览器矢量显示 -->
+    <link rel="icon" href="./favicon.ico" sizes="48x48" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./share-512.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="XanthanL 的项目星系——每一颗行星都是一个已部署上线的项目，点击行星即可跃迁前往。" />
+    <meta name="theme-color" content="#050505" />
+
+    <!-- Open Graph / 微信转发卡片（微信读 og:image，wechat-share.png 为 120x120） -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="XanthanL | Project Constellation 项目星系" />
+    <meta property="og:description" content="每一颗行星都是一个已部署上线的项目，点击行星即可跃迁前往。" />
+    <meta property="og:url" content="https://xanthanl.github.io/" />
+    <meta property="og:image" content="https://xanthanl.github.io/wechat-share.png" />
+    <meta property="og:image:width" content="120" />
+    <meta property="og:image:height" content="120" />
+    <meta itemprop="image" content="https://xanthanl.github.io/wechat-share.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://xanthanl.github.io/share-512.png" />
+
     <title>XanthanL | Project Constellation 项目星系</title>
   </head>
   <body class="bg-background text-white selection:bg-primary/30">
