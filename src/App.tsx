@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect, useRef } from 'react'
+import { Suspense, useState, useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import {
@@ -14,8 +14,44 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink, Github, Copy, ChevronUp } from 'lucide-react'
 import XanthanSystem from './components/XanthanSystem'
 import StarField from './components/StarField'
-import { SECTORS, getSector } from './data/projects'
+import { SECTORS, PLANETS, getSector } from './data/projects'
 import * as THREE from 'three'
+
+// WebGL 能力检测：不支持时渲染降级页，避免白屏
+const detectWebGL = () => {
+  try {
+    const canvas = document.createElement('canvas')
+    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl2') || canvas.getContext('webgl')))
+  } catch {
+    return false
+  }
+}
+
+// 降级模式：终端风项目列表，保证老设备也能抵达各项目
+const WebGLFallback = () => (
+  <div className="w-full min-h-screen bg-black text-white font-mono p-8 md:p-16 flex flex-col gap-8 uppercase">
+    <header className="flex items-center gap-3">
+      <img src="./logo.svg" alt="XanthanL Logo" className="w-12 h-12" />
+      <span className="text-lg font-black tracking-[0.3em] border-l-2 border-primary pl-3">XANTHAN_OBS</span>
+    </header>
+    <p className="text-xs opacity-60 normal-case">当前设备不支持 WebGL，已切换到降级模式。以下是全部已部署项目：</p>
+    <ul className="flex flex-col gap-4">
+      {PLANETS.map((p) => (
+        <li key={p.id}>
+          <a
+            href={p.url} target="_blank" rel="noopener noreferrer"
+            className="group flex flex-col gap-1 border border-white/10 p-4 hover:bg-white/5 transition-colors"
+            style={{ borderLeftColor: p.color, borderLeftWidth: 2 }}
+          >
+            <span className="text-[10px] tracking-[0.3em] opacity-40">{p.index} // {p.label}</span>
+            <span className="font-black normal-case" style={{ color: p.color }}>{p.name}</span>
+            <span className="text-[11px] opacity-60 normal-case tracking-normal">{p.desc}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)
 
 const CameraTracker = ({ activeSector, systemRef, controlsRef }: any) => {
   const initialized = useRef(false)
@@ -68,6 +104,10 @@ function App() {
   const cameraControlsRef = useRef<CameraControls>(null!)
   const xanthanSystemRef = useRef<any>(null!)
 
+  const webglOK = useMemo(detectWebGL, [])
+  // 移动端关掉次要后处理，降低发热与掉帧
+  const isMobile = useMemo(() => /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent), [])
+
   const sector = getSector(activeSector)
 
   useEffect(() => {
@@ -94,6 +134,30 @@ function App() {
     }, 800)
   }
 
+  // 键盘导航：方向键切换星区，数字键直达，Enter 打开当前项目
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const idx = SECTORS.findIndex((s) => s.id === activeSector)
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        e.preventDefault()
+        handleSectorChange(SECTORS[(idx + 1) % SECTORS.length].id)
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault()
+        handleSectorChange(SECTORS[(idx - 1 + SECTORS.length) % SECTORS.length].id)
+      } else if (/^[1-8]$/.test(e.key)) {
+        const s = SECTORS[Number(e.key) - 1]
+        if (s) handleSectorChange(s.id)
+      } else if (e.key === 'Enter') {
+        window.open(sector.url, '_blank', 'noopener')
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSector, isWarping])
+
+  if (!webglOK) return <WebGLFallback />
+
   return (
     <div className="relative w-full h-screen bg-[#000000] overflow-hidden text-white font-mono select-none tracking-tighter">
       <div className="absolute inset-0 z-0">
@@ -109,14 +173,20 @@ function App() {
 
             <EffectComposer multisampling={0}>
               <Bloom intensity={2.0} luminanceThreshold={0.1} mipmapBlur blendFunction={BlendFunction.SCREEN} />
-              <Scanline opacity={0.02} density={1.0} />
-              <Noise opacity={0.05} />
-              <Vignette darkness={1.2} />
-              <ChromaticAberration
-                offset={new THREE.Vector2(0.0008, 0.0008)}
-                radialModulation={false}
-                modulationOffset={0}
-              />
+              {isMobile ? (
+                <Vignette darkness={1.2} />
+              ) : (
+                <>
+                  <Scanline opacity={0.02} density={1.0} />
+                  <Noise opacity={0.05} />
+                  <Vignette darkness={1.2} />
+                  <ChromaticAberration
+                    offset={new THREE.Vector2(0.0008, 0.0008)}
+                    radialModulation={false}
+                    modulationOffset={0}
+                  />
+                </>
+              )}
             </EffectComposer>
           </Suspense>
         </Canvas>

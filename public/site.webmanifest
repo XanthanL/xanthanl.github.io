@@ -1,0 +1,21 @@
+{
+  "name": "XanthanL Project Constellation",
+  "short_name": "XanthanL",
+  "description": "XanthanL 的项目星系——每一颗行星都是一个已部署上线的项目",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "./share-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./share-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -22,10 +22,59 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:image" content="https://xanthanl.github.io/share-512.png" />
 
+    <link rel="manifest" href="./site.webmanifest" />
+
     <title>XanthanL | Project Constellation 项目星系</title>
+
+    <!-- 首屏 Loading：JS 下载/解析期间展示，React 挂载后自动被替换 -->
+    <style>
+      #root:empty + .boot-loader { display: flex; }
+      .boot-loader {
+        position: fixed; inset: 0; z-index: 999; display: none;
+        flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+        background: #000; color: #32cd32;
+        font-family: 'JetBrains Mono', Consolas, monospace;
+        letter-spacing: 0.4em; font-size: 11px; text-transform: uppercase;
+      }
+      .boot-loader .orbit {
+        width: 64px; height: 64px; border-radius: 50%;
+        border: 1px dashed rgba(50, 205, 50, 0.35); position: relative;
+        animation: boot-spin 3s linear infinite;
+      }
+      .boot-loader .orbit::after {
+        content: ''; position: absolute; top: -4px; left: 50%;
+        width: 8px; height: 8px; border-radius: 50%; background: #8b00ff;
+      }
+      .boot-loader .planet {
+        position: absolute; inset: 22px; border-radius: 50%;
+        background: radial-gradient(circle at 38% 32%, #7dff7d, #32cd32 45%, #0b3d0b);
+      }
+      .boot-loader .tip { animation: boot-blink 1.2s step-end infinite; }
+      @keyframes boot-spin { to { transform: rotate(360deg); } }
+      @keyframes boot-blink { 50% { opacity: 0.25; } }
+    </style>
   </head>
   <body class="bg-background text-white selection:bg-primary/30">
     <div id="root"></div>
+    <div class="boot-loader" aria-hidden="true">
+      <div class="orbit"><div class="planet"></div></div>
+      <div class="tip">Establishing Uplink...</div>
+    </div>
+    <noscript>
+      <div style="padding: 40px; font-family: monospace; color: #32cd32; background: #000; min-height: 100vh;">
+        <h1>XanthanL 项目星系</h1>
+        <p>本站需要启用 JavaScript 浏览 3D 星系。你也可以直接访问以下项目：</p>
+        <ul>
+          <li><a href="https://ascii-art-two-theta.vercel.app/" style="color:#00ff9f">ASCII LAB 文字工坊</a></li>
+          <li><a href="https://xanthanl.github.io/picmark-studio/" style="color:#ff6ec7">图印工坊 PicMark Studio</a></li>
+          <li><a href="https://xanthanl.github.io/shuyan-travel/" style="color:#38bdf8">树言·旅记</a></li>
+          <li><a href="https://xanthanl.github.io/XanthanLMusic/" style="color:#8b00ff">Electric Mirage 专辑</a></li>
+          <li><a href="https://xanthanl.github.io/ARH/" style="color:#c8d8ff">ARH 意识形态测试</a></li>
+          <li><a href="https://xanthanl.github.io/forcing-mars/" style="color:#ff4500">强渡火星 Forcing Mars</a></li>
+          <li><a href="https://diagonal-art.com/" style="color:#e8b04b">DIAGONAL 对角线计划</a></li>
+        </ul>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

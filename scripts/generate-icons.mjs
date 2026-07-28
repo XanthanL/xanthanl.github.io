@@ -37,6 +37,13 @@ async function main() {
     .png()
     .toFile(path.join(publicDir, 'share-512.png'))
   console.log('✓ public/share-512.png  (512x512)')
+
+  // 4. PWA manifest 图标（192 为安装到桌面的标准尺寸）
+  await sharp(shareSvg, { density: 300 })
+    .resize(192, 192)
+    .png()
+    .toFile(path.join(publicDir, 'share-192.png'))
+  console.log('✓ public/share-192.png  (192x192)')
 }
 
 main().catch((err) => {
