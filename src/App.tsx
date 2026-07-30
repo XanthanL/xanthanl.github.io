@@ -144,7 +144,7 @@ function App() {
       } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         e.preventDefault()
         handleSectorChange(SECTORS[(idx - 1 + SECTORS.length) % SECTORS.length].id)
-      } else if (/^[1-8]$/.test(e.key)) {
+      } else if (/^[1-9]$/.test(e.key)) {
         const s = SECTORS[Number(e.key) - 1]
         if (s) handleSectorChange(s.id)
       } else if (e.key === 'Enter') {

@@ -28,6 +28,7 @@
 | 06 | ⚪ 八面体 | ARH 意识形态测试 | [/ARH](https://xanthanl.github.io/ARH/) |
 | 07 | 🟥 十二面体 | 强渡火星 Forcing Mars | [/forcing-mars](https://xanthanl.github.io/forcing-mars/) |
 | 08 | 🟡 气态巨星 | DIAGONAL 对角线计划 | [diagonal-art.com](https://diagonal-art.com/) |
+| 09 | 🟪 雾紫行星 | 弦诵 XianSong（Android 阅读器） | [Releases 下载 APK](https://github.com/XanthanL/XianSong/releases) |
 
 ## 🛠️ 技术栈
 

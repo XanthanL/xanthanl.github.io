@@ -150,6 +150,22 @@ export const SECTORS: Sector[] = [
     kind: 'gasGiant',
     rings: true,
   },
+  {
+    id: 'XIANSONG',
+    index: '09',
+    label: 'XSG_09',
+    name: '弦诵 XianSong',
+    desc: '离线优先的 Android 电子书阅读器。EPUB / PDF / TXT 全格式，基于 sherpa-onnx 的神经网络离线朗读——无需联网、不上传任何数据，支持 VITS 语音包中英混读、句子高亮跟随；SHA-256 去重书架与子书架分组。名取《礼记》「春诵夏弦」。',
+    tags: ['ANDROID', '离线TTS', 'GPL-3.0'],
+    color: '#b48cff',
+    url: 'https://github.com/XanthanL/XianSong/releases',
+    repo: 'https://github.com/XanthanL/XianSong',
+    dist: 38,
+    speed: 0.04,
+    size: 0.7,
+    kind: 'sphere',
+    cloud: true,
+  },
 ]
 
 export const PLANETS = SECTORS.filter((s) => s.kind !== 'sun')
