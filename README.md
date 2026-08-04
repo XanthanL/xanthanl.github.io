@@ -22,11 +22,11 @@
 |:---:|:---:|---|---|
 | 01 | ☀️ 恒星 | Xanthan 观测站（本站） | [xanthanl.github.io](https://xanthanl.github.io/) |
 | 02 | 🟩 立方体 | ASCII LAB 文字工坊 | [ascii-art-two-theta.vercel.app](https://ascii-art-two-theta.vercel.app/) |
-| 03 | 💗 二十面体 | 图印工坊 PicMark Studio | [/picmark-studio](https://xanthanl.github.io/picmark-studio/) |
+| 03 | 🟥 十二面体 | 图印工坊 PicMark Studio | [/picmark-studio](https://xanthanl.github.io/picmark-studio/) |
 | 04 | 🔵 环体 | 树言·旅记 | [/shuyan-travel](https://xanthanl.github.io/shuyan-travel/) |
 | 05 | 🟣 环结 | Electric Mirage 专辑 | [/XanthanLMusic](https://xanthanl.github.io/XanthanLMusic/) |
 | 06 | ⚪ 八面体 | ARH 意识形态测试 | [/ARH](https://xanthanl.github.io/ARH/) |
-| 07 | 🟥 十二面体 | GAME LAB 前端游戏实验场 | [/game-lab](https://xanthanl.github.io/game-lab/) |
+| 07 | 🟧 二十面体 | GAME LAB 前端游戏实验场 | [/game-lab](https://xanthanl.github.io/game-lab/) |
 | 08 | 🟡 气态巨星 | DIAGONAL 对角线计划 | [diagonal-art.com](https://diagonal-art.com/) |
 | 09 | 🟪 雾紫行星 | 弦诵 XianSong（Android 阅读器） | [Releases 下载 APK](https://github.com/XanthanL/XianSong/releases) |
 
