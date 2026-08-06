@@ -29,6 +29,7 @@
 | 07 | 🟧 二十面体 | GAME LAB 前端游戏实验场 | [/game-lab](https://xanthanl.github.io/game-lab/) |
 | 08 | 🟡 气态巨星 | DIAGONAL 对角线计划 | [diagonal-art.com](https://diagonal-art.com/) |
 | 09 | 🟪 雾紫行星 | 弦诵 XianSong（Android 阅读器） | [Releases 下载 APK](https://github.com/XanthanL/XianSong/releases) |
+| 10 | 🟫 八面体 | Photoria · Backrooms Camera（Android 滤镜相机） | [Releases 下载 APK](https://github.com/XanthanL/backrooms-camera/releases) |
 
 ## 🛠️ 技术栈
 

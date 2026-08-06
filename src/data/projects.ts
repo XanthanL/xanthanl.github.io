@@ -166,6 +166,21 @@ export const SECTORS: Sector[] = [
     kind: 'sphere',
     cloud: true,
   },
+  {
+    id: 'PHOTORIA',
+    index: '10',
+    label: 'PHC_10',
+    name: 'Photoria · Backrooms Camera',
+    desc: '原生 Android 滤镜相机，基于 OpenGL ES 3.0 实时渲染管线 + CameraX + Jetpack Compose。23 种实时滤镜（Backrooms / 胶片颗粒 / 赛博朋克 / VHS / HP5 等），多帧预处理管线（HDR+ 包围曝光融合、夜景多帧降噪、智能场景识别），复古 VHS 取景器叠加层直烧进视频。Camera2 专业控制，单趟 EGL 共享纹理直渲 MediaCodec H.264 录制。',
+    tags: ['ANDROID', 'OPENGL ES', '滤镜相机'],
+    color: '#c9a227',
+    url: 'https://github.com/XanthanL/backrooms-camera/releases',
+    repo: 'https://github.com/XanthanL/backrooms-camera',
+    dist: 44,
+    speed: 0.03,
+    size: 0.65,
+    kind: 'octahedron',
+  },
 ]
 
 export const PLANETS = SECTORS.filter((s) => s.kind !== 'sun')
