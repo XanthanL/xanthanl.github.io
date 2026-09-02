@@ -21,15 +21,14 @@
 | 编号 | 天体 | 项目 | 传送门 |
 |:---:|:---:|---|---|
 | 01 | ☀️ 恒星 | Xanthan 观测站（本站） | [xanthanl.github.io](https://xanthanl.github.io/) |
-| 02 | 🟩 立方体 | ASCII LAB 文字工坊 | [game-lab/ascii-art](https://xanthanl.github.io/game-lab/ascii-art/) |
-| 03 | 🟥 十二面体 | 图印工坊 PicMark Studio | [/picmark-studio](https://xanthanl.github.io/picmark-studio/) |
-| 04 | 🔵 环体 | 树言·旅记 | [game-lab/shuyan-travel](https://xanthanl.github.io/game-lab/shuyan-travel/) |
-| 05 | 🟣 环结 | Electric Mirage 专辑 | [game-lab/XanthanLMusic](https://xanthanl.github.io/game-lab/XanthanLMusic/dist/) |
-| 06 | ⚪ 八面体 | ARH 意识形态测试 | [game-lab/ARH](https://xanthanl.github.io/game-lab/ARH/dist/) |
-| 07 | 🟧 二十面体 | GAME LAB 前端游戏实验场 | [/game-lab](https://xanthanl.github.io/game-lab/) |
-| 08 | 🟡 气态巨星 | DIAGONAL 对角线计划 | [diagonal-art.com](https://www.diagonal-art.com/) |
-| 09 | 🟪 雾紫行星 | 弦诵 XianSong（Android 阅读器） | [Releases 下载 APK](https://github.com/XanthanL/XianSong/releases) |
-| 10 | 🟫 八面体 | Photoria · Backrooms Camera（Android 滤镜相机） | [Releases 下载 APK](https://github.com/XanthanL/backrooms-camera/releases) |
+| 02 | 🪐 气态巨星 | DIAGONAL 对角线计划 | [diagonal-art.com](https://www.diagonal-art.com/) |
+| 03 | 🔷 二十面体 | GAME LAB 前端游戏实验场 | [/game-lab](https://xanthanl.github.io/game-lab/) |
+| 04 | 🌀 环结 | NeonDAW 浏览器音频工作站 | [neon-daw](https://xanthanl.github.io/neon-daw/) |
+| 05 | 🔶 十二面体 | 图印工坊 PicMark Studio | [/picmark-studio](https://xanthanl.github.io/picmark-studio/) |
+| 06 | 💍 环体 | 树言·旅记 | [game-lab/shuyan-travel](https://xanthanl.github.io/game-lab/shuyan-travel/) |
+| 07 | 🔵 球体 | Electric Mirage 专辑 | [game-lab/XanthanLMusic](https://xanthanl.github.io/game-lab/XanthanLMusic/dist/) |
+| 08 | 🔸 八面体 | 弦诵 XianSong（Android 阅读器） | [Releases 下载 APK](https://github.com/XanthanL/XianSong/releases) |
+| 09 | 📦 立方体 | Photoria · Backrooms Camera（Android 滤镜相机） | [Releases 下载 APK](https://github.com/XanthanL/backrooms-camera/releases) |
 
 ## 🛠️ 技术栈
 
